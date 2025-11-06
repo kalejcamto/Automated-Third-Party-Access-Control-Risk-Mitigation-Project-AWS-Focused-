@@ -93,7 +93,7 @@ This phase documents the deployment of the selected controls, providing evidence
 | :--- | :--- | :--- |
 | **`3.1_Restrictive_IAM_Policy.json`** | The AWS IAM policy code used to enforce the Principle of Least Privilege (the core preventative control). | See JSON code block below. This policy grants only read access to the specific S3 bucket and denies all other S3 actions, reducing the **Impact** of a credential compromise. |
 | **`3.2_MFA_Conditional_Access_Logic.md`** | Documentation of the logic used to enforce strong authentication (MFA). | **Logic:** A Conditional Access Policy was created within AWS Identity Center (or using an IAM Policy with a `Condition` key) to explicitly deny access to any TPV IAM Role that does not have a present and valid MFA token. This reduces the **Likelihood** of an unauthorized login. |
-| **`3.3_Training_and_Change_Log.md`** | Record of communication, training, and deployment steps. | **Change Log:** Deployed new IAM Role `TPV-FraudDetection-ReadOnly` and attached `3.1_Restrictive_IAM_Policy.json` on [Date]. Old IAM role deprovisioned. **Training:** TPV leadership was required to complete a security briefing focusing on MFA use and data handling policies prior to receiving new credentials. |
+| **`3.3_Training_and_Change_Log.md`** | Record of communication, training, and deployment steps. | **Change Log:** Deployed new IAM Role `TPV-FraudDetection-ReadOnly` and attached `3.1_Restrictive_IAM_Policy.json` on November 2nd 2025. Old IAM role deprovisioned. **Training:** TPV leadership was required to complete a security briefing focusing on MFA use and data handling policies prior to receiving new credentials. |
 
 ---
 
