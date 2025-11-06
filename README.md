@@ -40,7 +40,7 @@ This comprehensive risk cycle reduced the target Inherent Risk Score (TPV data e
 
 ---
 
-## 🛠️ Key Technologies & Controls Used
+## Key Technologies & Controls Used
 
 * **Cloud Platform:** Amazon Web Services (AWS)
 * **Core Services:** AWS IAM, Amazon S3, AWS Identity Center
