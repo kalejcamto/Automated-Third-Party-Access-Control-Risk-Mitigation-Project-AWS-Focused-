@@ -127,14 +127,34 @@ This policy implements the "Read-Only" control for the TPV access:
       "Resource": "*",
       "Condition": {
         "StringEquals": {
-          "aws:PrincipalArn": "arn:aws:iam::[Your-AWS-Account-ID]:role/TPV-FraudDetection-ReadOnly"
+          "aws:PrincipalArn": "arn:aws:iam::[/private info/]:role/TPV-FraudDetection-ReadOnly"
         }
       }
     }
   ]
 }
 
+----
+## 📂 4_Monitoring_and_Reporting/ Folder Structure
 
+This final phase focuses on measuring the effectiveness of the deployed controls and establishing a process for continuous oversight, confirming the achieved **Residual Risk Score**.
+
+| File Name | Purpose | Example Content for TPV Access Control |
+| :--- | :--- | :--- |
+| **`4.1_Residual_Risk_Analysis.md`** | The final analysis showing the risk score *after* controls have been implemented. | **R-TPV-001 Residual Risk:** The restrictive IAM policy (reduced Impact) and MFA enforcement (reduced Likelihood) lowered the risk. **New Score:** Likelihood (L) 1 x Impact (I) 2 = **2 (Low)**. This is below the organizational Risk Tolerance Threshold (typically 8). |
+| **`4.2_KRIs_and_KPIs.md`** | Defines the Key Risk Indicators (KRIs) and Key Performance Indicators (KPIs) for ongoing monitoring. | **KPIs (Control Effectiveness):** 1. Percentage of TPV IAM Roles utilizing Least Privilege (Target: 100%). 2. Average time-to-deprovision TPV access upon contract end (Target: <24 hours). **KRIs (Risk Status):** 1. Number of failed TPV login attempts (Threshold: 5 per week). 2. Instances of TPV attempts to access non-authorized S3 buckets (Threshold: 0). |
+| **`4.3_Audit_and_Review_Schedule.md`** | Defines the frequency of formal control review. | **IAM Policy Audit:** Automated monthly review via AWS Config/Access Analyzer. **Full Vendor Risk Assessment:** Performed annually, or immediately following any significant security incident on either side. |
+
+---
+
+### Final Residual Risk Calculation Table
+
+This table summarizes the project's success:
+
+| Risk ID | Inherent Risk (L x I) | Mitigation Control(s) | Residual Risk (L x I) | Status |
+| :--- | :---: | :--- | :---: | :--- |
+| **R-TPV-001** | **15 (High)** | Least Privilege IAM Policy & MFA Enforcement | **2 (Low)** | Accepted/Managed |
+| R-TPV-002 | 12 (High) | Automated De-provisioning | 3 (Low) | Accepted/Managed |
 
 
 
