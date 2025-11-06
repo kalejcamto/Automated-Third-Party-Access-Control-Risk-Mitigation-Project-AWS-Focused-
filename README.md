@@ -33,10 +33,10 @@ This comprehensive risk cycle reduced the target Inherent Risk Score (TPV data e
 
 | Folder | Phase | Goal/Focus |
 | :--- | :--- | :--- |
-| **[1_Risk_Assessment/](1_Risk_Assessment/)** | **What If?** | Defines scope, critical assets (anonymized data), threats, and establishes the baseline **Inherent Risk Score** using a defined scoring matrix. |
-| **[2_Mitigation_Strategy/](2_Mitigation_Strategy/)** | **How to Fix It?** | Selects the Mitigation response, aligns controls with **NIST AC-3**, and details the **Just-in-Time (JIT) Access Architecture** to reduce likelihood and impact. |
-| **[3_Implementation_Documentation/](3_Implementation_Documentation/)** | **The Proof** | Contains the tangible deployment artifacts, including the **restrictive AWS IAM Policy (JSON code)** and the logic for MFA Conditional Access. |
-| **[4_Monitoring_and_Reporting/](4_Monitoring_and_Reporting/)** | **Is It Working?** | Confirms the final **Residual Risk Score**, and establishes ongoing **KRIs/KPIs** (e.g., TPV access attempts) and the audit schedule using AWS Config. |
+| **[1_Risk_Assessment/]** | **What If?** | Defines scope, critical assets (anonymized data), threats, and establishes the baseline **Inherent Risk Score** using a defined scoring matrix. |
+| **[2_Mitigation_Strategy/]** | **How to Fix It?** | Selects the Mitigation response, aligns controls with **NIST AC-3**, and details the **Just-in-Time (JIT) Access Architecture** to reduce likelihood and impact. |
+| **[3_Implementation_Documentation/]** | **The Proof** | Contains the tangible deployment artifacts, including the **restrictive AWS IAM Policy (JSON code)** and the logic for MFA Conditional Access. |
+| **[4_Monitoring_and_Reporting/]** | **Is It Working?** | Confirms the final **Residual Risk Score**, and establishes ongoing **KRIs/KPIs** (e.g., TPV access attempts) and the audit schedule using AWS Config. |
 
 ---
 
