@@ -1,23 +1,89 @@
 # Automated-Third-Party-Access-Control-Risk-Mitigation-Project-AWS-Focused-
 Inadequate Third Party Vendor access controls and automated least-privilege access using AWS services
 
+# 🛡️ Automated Third-Party Access Control & Risk Mitigation Project (AWS Focused)
 
-**Project Goal:** Reduce the inherent risk score of TPV data exposure from High (15) to Low (4).
+**Repository Status:** Complete (Assessment, Mitigation, Implementation, Monitoring)
+
+---
+
+## 💡 Executive Summary
+
+This project documents the end-to-end process of identifying, mitigating, and continuously monitoring a critical **Third-Party Vendor (TPV) Access Risk** in a financial services cloud environment (**FinTech Global on AWS**). The primary objective was to move beyond conventional static controls by implementing scalable, automated **Least-Privilege** and **Just-in-Time (JIT)** access mechanisms.
+
+This comprehensive risk cycle reduced the target Inherent Risk Score (TPV data exposure) from **High (15)** to an acceptable **Low (2)**.
+
+**Risk Specialist Focus Areas Demonstrated:**
+* **Quantitative Risk Assessment** and Scoring.
+* Designing controls using **NIST SP 800-53** and the **AWS Well-Architected Framework**.
+* Technical implementation of **AWS IAM Roles, S3 Policies, and JIT Access Logic**.
+* Establishing **Key Risk Indicators (KRIs)** for continuous monitoring.
+
+---
+
+## 🎯 Project Goal & Outcome
+
+| Metric | Target | Result |
+| :--- | :--- | :--- |
+| **Inherent Risk Score (R-TPV-001)** | N/A (Baseline) | **15 (High)** |
+| **Residual Risk Score (R-TPV-001)** | Low (4 or less) | **2 (Low)** |
+| **Key Control Implemented** | Automated Least-Privilege & MFA/JIT Access | Success |
+| **Framework Alignment** | NIST SP 800-53 & AWS Security Pillar | Achieved |
+
+---
+
+## 📂 Project Phases & Navigation
+
+| Folder | Phase | Goal/Focus |
+| :--- | :--- | :--- |
+| **[1_Risk_Assessment/](1_Risk_Assessment/)** | **What If?** | Defines scope, critical assets (anonymized data), threats, and establishes the baseline **Inherent Risk Score** using a defined scoring matrix. |
+| **[2_Mitigation_Strategy/](2_Mitigation_Strategy/)** | **How to Fix It?** | Selects the Mitigation response, aligns controls with **NIST AC-3**, and details the **Just-in-Time (JIT) Access Architecture** to reduce likelihood and impact. |
+| **[3_Implementation_Documentation/](3_Implementation_Documentation/)** | **The Proof** | Contains the tangible deployment artifacts, including the **restrictive AWS IAM Policy (JSON code)** and the logic for MFA Conditional Access. |
+| **[4_Monitoring_and_Reporting/](4_Monitoring_and_Reporting/)** | **Is It Working?** | Confirms the final **Residual Risk Score**, and establishes ongoing **KRIs/KPIs** (e.g., TPV access attempts) and the audit schedule using AWS Config. |
+
+---
+
+## 🛠️ Key Technologies & Controls Used
+
+* **Cloud Platform:** Amazon Web Services (AWS)
+* **Core Services:** AWS IAM, Amazon S3, AWS Identity Center
+* **Risk Frameworks:** NIST SP 800-53, AWS Well-Architected Framework
+* **Control Mechanisms:** Least-Privilege IAM Roles, MFA Enforcement, Cross-Account Trust Policies, Automated Access Deprovisioning (JIT via Lambda/CloudWatch).
+
+----
+**Details**
 
 Access Control is the set of mechanisms (like usernames, passwords, MFA, and defined permissions) that determines:
 
 > Authentication: Who the TPV user is (verifying identity).
 
-> uthorization: What resources (data, applications, servers) that user is allowed to access and what actions they can perform (read, write, delete).
+> Authorization: What resources (data, applications, servers) that user is allowed to access and what actions they can perform (read, write, delete).
 
 Project Phases: 
 
 1_Risk_Assessment/ (The "What If") What are we protecting? Who or what is threatening it? and How bad is the risk right now?
 
-Risk ID,Risk Scenario,Likelihood (L) (1-5),Impact (I) (1-5),Inherent Risk Score (L x I),Recommended Response
-R-TPV-001,TPV credential compromise leads to customer data exfiltration.,3 (Possible),5 (Catastrophic),15 (High),Mitigate (Reduce L and I)
-R-TPV-002,Lack of automated deprovisioning leaves old TPV accounts active.,4 (Likely),3 (Serious),12 (High),Mitigate (Reduce L)
-R-TPV-003,TPV introduces vulnerable code into the production environment.,2 (Unlikely),4 (Major),8 (Medium),Mitigate (Improve Code Review)
+
+### Scoring Definition Matrix
+
+To ensure consistency following 5x5 scoring matrix was used for calculating Inherent Risk (Likelihood x Impact):
+
+| Score | Likelihood Definition (L) | Impact Definition (I) |
+| :--- | :--- | :--- |
+| **5 (Catastrophic)** | **Almost Certain:** Expected to occur in most circumstances (e.g., >90% probability over 1 year). | **Catastrophic:** Regulatory fine >$1M OR sustained, severe service interruption (>72 hours) AND significant, irreparable brand damage. |
+| **4 (Likely)** | **Likely:** Will probably occur in many circumstances (e.g., 50-90% probability over 1 year). | **Major:** Regulatory fine <$1M OR service outage (4-72 hours) AND reportable data breach involving PII/PCI. |
+| **3 (Possible)** | **Possible:** Might occur at some time (e.g., 20-50% probability over 1 year). | **Serious:** Minor regulatory scrutiny OR service outage (<4 hours) AND internal investigation required, high operational cost. |
+| **2 (Unlikely)** | **Unlikely:** Could happen at some time, but not expected (e.g., 10-20% probability over 1 year). | **Minor:** Isolated operational disruption; managed internally with minimal cost. |
+| **1 (Rare)** | **Rare:** May occur only in exceptional circumstances (e.g., <10% probability over 1 year). | **Negligible:** Very limited business or operational impact. |
+
+---
+
+#### Risk Tolerance Threshold
+
+* **Tolerance:** Any risk scoring 8 or above (Medium-High or above) requires mandatory mitigation (project R-TPV-001, 002, and 003).
+* **Target Residual Risk:** 4 (Low) or below.
+
+
 
 ## 📂 1_Risk_Assessment/
 
@@ -51,6 +117,17 @@ This directory contains the documentation for the initial phase of the project: 
 2.2_Mitigation_Plan.md: The project plan. This is the most valuable part for an AWS Risk Specialist.
 
 ## 📂 2_Mitigation_Strategy/ Folder Structure
+
+### ⚙️ Phase 2: Authentication Hardening (Reducing Likelihood) - JIT Access Detail
+
+**Control Objective:** Eliminate long-lived credentials and implement time-bound, audited access for TPV human users and service maintenance.
+
+| Control Action | AWS Tools Used | Implementation Detail (Reducing L) |
+| :--- | :--- | :--- |
+| **1. Just-in-Time (JIT) Access** | **AWS IAM Identity Center** (successor to AWS SSO), **AWS Lambda**, **Amazon CloudWatch** | TPV users access the platform exclusively through AWS IAM Identity Center. Access to the `TPV-FraudDetection-ReadOnly` IAM Role is granted only via a ticketing system (e.g., ServiceNow). A **Lambda function** is triggered by the ticket approval, which temporarily adds the TPV user group to the specific role's permission set for a maximum of 4 hours. Access is revoked automatically by a CloudWatch trigger or upon ticket closure. |
+| **2. Cross-Account Role Assumption** | **IAM Trust Policies** | The TPV is required to assume the **`TPV-FraudDetection-ReadOnly`** role from their **own dedicated AWS account**. The FinTech Global IAM Trust Policy is set to only trust the TPV's AWS Account ID and a specific External ID, preventing rogue access attempts and ensuring clear ownership of the access pathway. |
+| **3. Session Tagging** | **IAM Session Tags** | Every JIT session is tagged with metadata (e.g., `PrincipalTag:{"RequestID": "TICKET-123"}`). This allows for granular auditing using **CloudTrail** and permits the use of **Condition Keys** in IAM Policies to restrict actions further based on the tag's presence. |
+
 
 This directory outlines the strategic plan for addressing the critical risks identified in the assessment phase, focusing on control selection and detailed implementation planning.
 
